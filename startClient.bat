@@ -1,0 +1,1 @@
+java -cp SimpleEchoServer.jar gui.ClientGUI 9090 localhost
