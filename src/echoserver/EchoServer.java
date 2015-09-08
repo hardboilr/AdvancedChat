@@ -14,15 +14,14 @@ import utils.Utils;
 /**
  * @author Tobias Jacobsen
  */
-
 public class EchoServer {
 
     private static boolean keepRunning = true;
     private static ServerSocket serverSocket;
     private static final Properties properties = Utils.initProperties("server.properties");
-    
-    private List <ClientHandler> clientHandlerList = new ArrayList();
-    
+
+    private List<ClientHandler> clientHandlerList = new ArrayList();
+
     public static void stopServer() {
         keepRunning = false;
     }
@@ -50,14 +49,21 @@ public class EchoServer {
             Logger.getLogger(EchoServer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public void removeHandler(ClientHandler ch) {
         clientHandlerList.remove(ch);
     }
-    
-    public void send(String message) {
+
+    public void send(List<String> receivers, String message) {
         for (ClientHandler clientHandler : clientHandlerList) {
-            clientHandler.send(message.toUpperCase());
+            for (String name : receivers) {
+                if (clientHandler.getUsername().equals(name)) {
+                    System.out.println("In echoserver -->");
+                    System.out.println("name is: " + name);
+                    System.out.println("username is: " + clientHandler.getUsername());
+                    clientHandler.send(message);
+                }
+            }
         }
     }
 

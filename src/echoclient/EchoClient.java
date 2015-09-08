@@ -29,6 +29,7 @@ public class EchoClient extends Observable implements Runnable {
         socket = new Socket(serverAddress, port);
         input = new Scanner(socket.getInputStream());
         output = new PrintWriter(socket.getOutputStream(), true);  //Set to true, to get auto flush behaviour
+        send(ProtocolStrings.connect("Sebastian"));
         run();
     }
 
@@ -60,5 +61,8 @@ public class EchoClient extends Observable implements Runnable {
             }
         });
         t.start();
+    }
+    private void parseCmd(String input){
+        
     }
 }
