@@ -78,7 +78,7 @@ public class ClientHandler extends Thread {
     }
 
     @Override
-    public void run() {
+    public void run() { 
         try {
             String message = input.nextLine(); //IMPORTANT blocking call
             Logger.getLogger(EchoServer.class.getName()).log(Level.INFO, String.format("Received the message: %1$S ", message));
