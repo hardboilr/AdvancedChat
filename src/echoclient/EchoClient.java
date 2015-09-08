@@ -60,7 +60,7 @@ public class EchoClient extends Observable implements Runnable {
                             Logger.getLogger(EchoClient.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     } else {
-                        map = parseCommands.parseClientMessage(msg, "");
+                        map = parseCommands.parseServerMessage(msg);
                     }
                     setChanged();
                     notifyObservers(msg);
