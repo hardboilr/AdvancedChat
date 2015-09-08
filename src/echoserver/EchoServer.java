@@ -52,12 +52,12 @@ public class EchoServer {
     }
     
     public void removeHandler(ClientHandler ch) {
-        clientHandlerList.remove(ch);
+        clientHandlerList.remove(ch); 
     }
     
     public void send(String message) {
         for (ClientHandler clientHandler : clientHandlerList) {
-            clientHandler.send(message.toUpperCase());
+            clientHandler.send(clientHandler.getUserName() + message.toUpperCase());
         }
     }
 
