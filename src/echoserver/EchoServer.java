@@ -51,7 +51,7 @@ public class EchoServer {
     }
 
     public void removeHandler(ClientHandler ch) {
-        clientHandlerList.remove(ch);
+        clientHandlerList.remove(ch); 
     }
 
     public void send(List<String> receivers, String message) {

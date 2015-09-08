@@ -6,6 +6,7 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import shared.ProtocolStrings;
 
 /**
  * @author Tobias Jacobsen
@@ -14,6 +15,7 @@ public class ClientGUI extends javax.swing.JFrame implements Observer {
 
     private EchoClient client;
     private boolean isConnected;
+    ProtocolStrings ps = new ProtocolStrings();
 
     /**
      * Create GUI. Create client and add the GUI as observer. Connect client to
@@ -96,9 +98,12 @@ public class ClientGUI extends javax.swing.JFrame implements Observer {
             jTextField_input.setText("");
         } else {
             try {
-                client.connect("hardboilr.cloudapp.net", 9090);
-                client.send(jTextField_input.getText());
+                client.connect("localhost", 9090);
+                client.send(ps.user(jTextField_input.getText()));
                 isConnected = true;
+                jTextField_input.setText("");
+                jButton_send.setText("Send!");
+                jButton_send.setToolTipText("Send message!");
             } catch (IOException ex) {
                 Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
             }

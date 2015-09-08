@@ -1,6 +1,5 @@
 package echoserver;
 
-import echoclient.EchoClient;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -25,6 +24,11 @@ public class ClientHandler extends Thread {
     private Scanner scan;
     private String message;
 
+    private List<String> users = new ArrayList<>();
+    private String parsedCmd;
+    private String reciever;
+    private String userName;
+
     public ClientHandler(Socket socket, EchoServer echoserver) throws IOException {
         this.socket = socket;
         this.echoserver = echoserver;
@@ -39,7 +43,7 @@ public class ClientHandler extends Thread {
     }
 
     @Override
-    public void run() {
+    public void run() { 
         try {
             String msg = input.nextLine(); //IMPORTANT blocking call
             Logger.getLogger(EchoServer.class.getName()).log(Level.INFO, String.format("Received the message: %1$S ", msg));
