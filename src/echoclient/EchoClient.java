@@ -26,6 +26,9 @@ public class EchoClient extends Observable implements Runnable {
     private PrintWriter output;
     private String msg = "";
     private ParseCommands parseCommands;
+    
+    
+    
 
     public void connect(String address, int port) throws UnknownHostException, IOException {
         parseCommands = new ParseCommands();

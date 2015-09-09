@@ -43,7 +43,7 @@ public class ClientHandler extends Thread {
     }
 
     public void send(String message) {
-        writer.println("MSG#" + this.username + "#" + message);
+        writer.println(message);
     }
 
     public void sendUserList(List<String> userList) {
@@ -62,8 +62,9 @@ public class ClientHandler extends Thread {
             while (!msg.equals(ProtocolStrings.STOP)) {
                 if (!isLoggedIn) {
                     username = parseCmd.parseUser(msg);
-                    echoserver.updateUserList();
                     isLoggedIn = true;
+                    echoserver.addHandler(this);
+                    echoserver.updateUserList();
                 } else {
                     echoserver.send(parseCmd.parseClientMessage(msg, username));
                 }

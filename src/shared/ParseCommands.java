@@ -1,6 +1,7 @@
 package shared;
 
 import echoserver.ClientHandler;
+import echoserver.MessagePackage;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,20 +18,23 @@ public class ParseCommands {
     }
 
     public Map parseClientMessage(String input, String userName) {
-        Map<String, String> map = new HashMap();
+        Map<String, MessagePackage> map = new HashMap();
         String remaining = input.substring(input.indexOf("#") + 1);
         String names = remaining.substring(0, remaining.indexOf("#"));
         String message = remaining.substring(remaining.indexOf("#") + 1);
         try (Scanner scan = new Scanner(names)) {
             scan.useDelimiter(",");
+            MessagePackage messagePackage = new MessagePackage();
+            messagePackage.setMessage(message);
+            messagePackage.setSender(userName);
             while (scan.hasNext()) {
                 String name = scan.next();
-                map.put(name, message);
+                map.put(name, messagePackage);
             }
             //Experimental!!
             // we put "ourselves" into the map,
             //to get the message in our own client as well
-            map.put(userName, message);
+            map.put(userName, messagePackage);
         }
         return map;
     }
@@ -42,7 +46,7 @@ public class ParseCommands {
         String names = remaining.substring(0, remaining.indexOf("#"));
         String message;
         if (command.equals("USERLIST")) {
-            message = "USER";
+            message = "USER#";
         } else {
             message = remaining.substring(remaining.indexOf("#") + 1);
         }

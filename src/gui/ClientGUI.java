@@ -165,4 +165,7 @@ public class ClientGUI extends javax.swing.JFrame implements Observer {
 //        if (map.)
 //        jTextArea.append((String) arg + "\n");
     }
+   
+    
+    
 }
