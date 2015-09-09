@@ -165,15 +165,19 @@ public class ClientGUI extends javax.swing.JFrame implements ObserverInterface {
     // End of variables declaration//GEN-END:variables
 
     @Override
-    public void updateUserlist(HashMap users) {
-        for(Map.Entry<String, String> entry : map.entrySet()){
+    public void updateUserlist(HashMap<String, String> users) {
+        System.out.println("updaetUserList");
+        System.out.println("users size: " + users.size());
+        listmodel.removeAllElements();
+        for(Map.Entry<String, String> entry : users.entrySet()){
             listmodel.addElement(entry.getKey());
+            
         }
     }
 
     @Override
     public void updateMessages(HashMap message) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.println("updatemessages");
     }
 
   

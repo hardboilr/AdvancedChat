@@ -39,10 +39,12 @@ public class ParseCommands {
         return map;
     }
 
-    public Map parseServerMessage(String input) {
-        Map<String, String> map = new HashMap();
+    public HashMap parseServerMessage(String input) {
+        System.out.println("input is: " + input);
+        HashMap<String, String> map = new HashMap();
         Scanner scan;
-        String command = input.substring(0, (input.indexOf("#")-1));
+        String command = input.substring(0, input.indexOf("#"));
+        System.out.println("command is: " + command);
         if (command.equals("USERLIST")) {
             String users = input.substring(input.lastIndexOf("#")+1);
             scan = new Scanner(users);

@@ -85,7 +85,7 @@ public class EchoClient implements Runnable {
                         }
                     } else {
                         System.out.println("Msg is: " + msg);
-                        map = (HashMap<String, String>) parseCommands.parseServerMessage(msg);
+                        map = parseCommands.parseServerMessage(msg);
                         
                     }
                     notifyObservers(map);
