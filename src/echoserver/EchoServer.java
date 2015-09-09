@@ -63,7 +63,7 @@ public class EchoServer {
     }
 
     public void updateUserList() {
-        List <String> list = new ArrayList();
+        List<String> list = new ArrayList();
         //add all users to list
         for (ClientHandler clientHandler : clientHandlerList) {
             list.add(clientHandler.getUsername());
@@ -78,7 +78,7 @@ public class EchoServer {
     public static void main(String[] args) {
         new EchoServer().runServer();
         try {
-            String logFile = properties.getProperty("logFile");
+            String logFile = properties.getProperty("logfile");
             Utils.setLogFile(logFile, EchoServer.class.getName());
         } finally {
             Utils.closeLogger(EchoServer.class.getName());
