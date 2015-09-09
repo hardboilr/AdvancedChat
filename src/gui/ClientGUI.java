@@ -99,7 +99,7 @@ public class ClientGUI extends javax.swing.JFrame implements Observer {
         } else {
             try {
                 client.connect("localhost", 9090);
-                client.send(ps.user(jTextField_input.getText()));
+//                client.send(ps.user(jTextField_input.getText()));
                 isConnected = true;
                 jTextField_input.setText("");
                 jButton_send.setText("Send!");
