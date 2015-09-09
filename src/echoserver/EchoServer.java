@@ -29,7 +29,6 @@ public class EchoServer {
 
     private void handleClient(Socket socket) throws IOException {
         ClientHandler clientHandler = new ClientHandler(socket, this);
-        clientHandlerList.add(clientHandler);
         clientHandler.start();
     }
 
@@ -50,14 +49,27 @@ public class EchoServer {
         }
     }
 
+    public void addHandler(ClientHandler clienthandler) {
+        clientHandlerList.add(clienthandler);
+    }
+
     public void removeHandler(ClientHandler ch) {
         clientHandlerList.remove(ch);
     }
 
-    public void send(Map<String, String> receivers) {
-        for (ClientHandler clientHandler : clientHandlerList) {
-            if (receivers.containsKey(clientHandler.getUsername())) {
-                clientHandler.send(receivers.get(clientHandler.getUsername()));
+    public void send(Map<String, MessagePackage> receivers) {
+        MessagePackage messagepackage;
+        if (receivers.containsKey("*")) {
+            for (ClientHandler clientHandler : clientHandlerList) {
+                messagepackage = receivers.get("*");
+                clientHandler.send("MSG#" + messagepackage.getSender() + "#" + messagepackage.getMessage());
+            }
+        } else {
+            for (ClientHandler clientHandler : clientHandlerList) {
+                if (receivers.containsKey(clientHandler.getUsername())) {
+                    messagepackage = receivers.get(clientHandler.getUsername());
+                    clientHandler.send("MSG#" + messagepackage.getSender() + "#" + messagepackage.getMessage());
+                }
             }
         }
     }
@@ -76,10 +88,10 @@ public class EchoServer {
     }
 
     public static void main(String[] args) {
-        new EchoServer().runServer();
         try {
             String logFile = properties.getProperty("logfile");
             Utils.setLogFile(logFile, EchoServer.class.getName());
+            new EchoServer().runServer();
         } finally {
             Utils.closeLogger(EchoServer.class.getName());
         }
