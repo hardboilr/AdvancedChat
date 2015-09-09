@@ -1,21 +1,12 @@
 #Sprint 1 7. sep - 9. sep  
 
-#Implement server (chat via telnet!)
-
---> Client init --> ----
-<-- ask user for username
---> USER#{NAME} --> add user to list 
-
---> MSG#{receivers)#{message} --> receive message
-<-- MSG#{sender)#{message} <-- send message back to receivers
-
---> STOP# --> remove user from list (user logs out)
+##Implement server (chat via telnet!) DONE
 
 #Sprint 2 10. - 13. sep
 
-#Implement GUI
+##Implement GUI
 
-#Elements
+##Elements
 
 TextField for username (only displayed when not logged in)
 Connect-button (only displayed when not logged in)

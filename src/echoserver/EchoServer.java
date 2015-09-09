@@ -6,6 +6,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,7 +36,6 @@ public class EchoServer {
     private void runServer() {
         int port = Integer.parseInt(properties.getProperty("port"));
         String ip = properties.getProperty("serverIp");
-
         Logger.getLogger(EchoServer.class.getName()).log(Level.INFO, "Sever started. Listening on: " + port + ", bound to: " + ip);
         try {
             serverSocket = new ServerSocket();
@@ -51,20 +51,28 @@ public class EchoServer {
     }
 
     public void removeHandler(ClientHandler ch) {
-        clientHandlerList.remove(ch); 
+        clientHandlerList.remove(ch);
     }
 
-    public void send(List<String> receivers, String message) {
+    public void send(Map<String, String> receivers) {
         for (ClientHandler clientHandler : clientHandlerList) {
-            for (String name : receivers) {
-                if (clientHandler.getUsername().equals(name)) {
-                    System.out.println("In echoserver -->");
-                    System.out.println("name is: " + name);
-                    System.out.println("username is: " + clientHandler.getUsername());
-                    clientHandler.send(message);
-                }
+            if (receivers.containsKey(clientHandler.getUsername())) {
+                clientHandler.send(receivers.get(clientHandler.getUsername()));
             }
         }
+    }
+
+    public void updateUserList() {
+        List <String> list = new ArrayList();
+        //add all users to list
+        for (ClientHandler clientHandler : clientHandlerList) {
+            list.add(clientHandler.getUsername());
+        }
+        //add list to all users
+        for (ClientHandler clientHandler : clientHandlerList) {
+            clientHandler.sendUserList(list);
+        }
+
     }
 
     public static void main(String[] args) {
