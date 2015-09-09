@@ -46,7 +46,7 @@ public class ParseCommands {
         String command = input.substring(0, input.indexOf("#"));
         System.out.println("command is: " + command);
         if (command.equals("USERLIST")) {
-            String users = input.substring(input.lastIndexOf("#")+1);
+            String users = input.substring(input.lastIndexOf("#") + 1);
             scan = new Scanner(users);
             scan.useDelimiter(",");
             String message = "USER#";
@@ -54,15 +54,14 @@ public class ParseCommands {
                 String name = scan.next();
                 map.put(name, message);
             }
-        }    
-//        } else{
-//            String message = input.substring(input.lastIndexOf("#") + 1);
-//            System.out.println("mesa");
-//            String sender = input.substring(input.indexOf("#")+1, input.lastIndexOf("#"));
-//            map.put(sender, message);
-//        }
-//        
-            
+
+        } else if (command.equals("MSG")){
+            String message = input.substring(input.lastIndexOf("#") + 1);
+            System.out.println("message");
+            String sender = input.substring(input.indexOf("#") + 1, input.lastIndexOf("#"));
+            map.put(sender, message);
+        }     
+
         return map;
     }
 

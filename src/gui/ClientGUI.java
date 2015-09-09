@@ -5,8 +5,6 @@ import echoclient.ObserverInterface;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
@@ -19,10 +17,9 @@ public class ClientGUI extends javax.swing.JFrame implements ObserverInterface {
 
     private EchoClient client;
     private boolean isConnected;
-    private Map <String, String> map;
+    private Map<String, String> map;
     ProtocolStrings ps = new ProtocolStrings();
     private DefaultListModel listmodel;
-    
 
     public ClientGUI() {
         initComponents();
@@ -31,6 +28,14 @@ public class ClientGUI extends javax.swing.JFrame implements ObserverInterface {
         map = new HashMap();
         listmodel = new DefaultListModel();
         jList1.setModel(listmodel);
+
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            @Override
+            public void run() {
+                client.send("STOP#");
+                       
+            }
+        });
     }
 
     /**
@@ -48,6 +53,7 @@ public class ClientGUI extends javax.swing.JFrame implements ObserverInterface {
         jTextField_input = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -64,13 +70,17 @@ public class ClientGUI extends javax.swing.JFrame implements ObserverInterface {
 
         jScrollPane2.setViewportView(jList1);
 
+        jLabel1.setText("Not connected to server!! Click connect to connect.");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(19, 19, 19)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 422, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 422, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButton_send, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE)
@@ -86,12 +96,14 @@ public class ClientGUI extends javax.swing.JFrame implements ObserverInterface {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(17, 17, 17)
-                .addComponent(jButton_send, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton_send, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane1)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE))
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(19, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(52, 52, 52)
@@ -104,13 +116,18 @@ public class ClientGUI extends javax.swing.JFrame implements ObserverInterface {
 
     private void jButton_sendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_sendActionPerformed
         if (isConnected) {
-            client.send(jTextField_input.getText());
+            int index = jList1.getSelectedIndex();
+            String value = jList1.getSelectedValue().toString();
+            System.out.println("value is: " + value);
+            client.send("MSG#" + value + "#" + jTextField_input.getText());
             jTextField_input.setText("");
         } else {
             try {
+                String input = jTextField_input.getText();
                 client.connect("localhost", 9090);
-                client.send("USER#"+jTextField_input.getText());
+                client.send("USER#" + input);
                 isConnected = true;
+                jLabel1.setText(input + "      Has connected to the server!!!!1!!");
                 jTextField_input.setText("");
                 jButton_send.setText("Send");
                 jButton_send.setToolTipText("Send message!");
@@ -157,6 +174,7 @@ public class ClientGUI extends javax.swing.JFrame implements ObserverInterface {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton_send;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JList jList1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -169,19 +187,20 @@ public class ClientGUI extends javax.swing.JFrame implements ObserverInterface {
         System.out.println("updaetUserList");
         System.out.println("users size: " + users.size());
         listmodel.removeAllElements();
-        for(Map.Entry<String, String> entry : users.entrySet()){
+        for (Map.Entry<String, String> entry : users.entrySet()) {
             listmodel.addElement(entry.getKey());
-            
+
         }
     }
 
     @Override
-    public void updateMessages(HashMap message) {
+    public void updateMessages(HashMap<String, String> message) {
         System.out.println("updatemessages");
+        System.out.println(message.size());
+        for (Map.Entry<String, String> entry : message.entrySet()) {
+            jTextArea.append(entry.getKey() + ": " + entry.getValue() + "\n");
+
+        }
     }
 
-  
-   
-    
-    
 }

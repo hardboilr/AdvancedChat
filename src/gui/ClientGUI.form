@@ -25,7 +25,10 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
-              <Component id="jScrollPane1" min="-2" pref="422" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Component id="jScrollPane1" pref="422" max="32767" attributes="0"/>
+                  <Component id="jLabel1" max="32767" attributes="0"/>
+              </Group>
               <EmptySpace pref="39" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Component id="jButton_send" pref="227" max="32767" attributes="0"/>
@@ -46,13 +49,16 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
-              <Component id="jButton_send" min="-2" pref="80" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="jButton_send" min="-2" pref="80" max="-2" attributes="0"/>
+                  <Component id="jLabel1" min="-2" pref="24" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Component id="jScrollPane1" max="32767" attributes="0"/>
                   <Component id="jScrollPane2" pref="300" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace pref="18" max="32767" attributes="0"/>
+              <EmptySpace pref="19" max="32767" attributes="0"/>
           </Group>
           <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
@@ -106,5 +112,10 @@
         </Component>
       </SubComponents>
     </Container>
+    <Component class="javax.swing.JLabel" name="jLabel1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Not connected to server!! Click connect to connect."/>
+      </Properties>
+    </Component>
   </SubComponents>
 </Form>
