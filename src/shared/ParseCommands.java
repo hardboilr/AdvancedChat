@@ -41,22 +41,26 @@ public class ParseCommands {
 
     public Map parseServerMessage(String input) {
         Map<String, String> map = new HashMap();
-        String command = input.substring(0, input.indexOf("#"));
-        String remaining = input.substring(input.indexOf("#") + 1);
-        String names = remaining.substring(0, remaining.indexOf("#"));
-        String message;
+        Scanner scan;
+        String command = input.substring(0, (input.indexOf("#")-1));
         if (command.equals("USERLIST")) {
-            message = "USER#";
-        } else {
-            message = remaining.substring(remaining.indexOf("#") + 1);
-        }
-        try (Scanner scan = new Scanner(names)) {
+            String users = input.substring(input.lastIndexOf("#")+1);
+            scan = new Scanner(users);
             scan.useDelimiter(",");
+            String message = "USER#";
             while (scan.hasNext()) {
                 String name = scan.next();
                 map.put(name, message);
             }
-        }
+        }    
+//        } else{
+//            String message = input.substring(input.lastIndexOf("#") + 1);
+//            System.out.println("mesa");
+//            String sender = input.substring(input.indexOf("#")+1, input.lastIndexOf("#"));
+//            map.put(sender, message);
+//        }
+//        
+            
         return map;
     }
 

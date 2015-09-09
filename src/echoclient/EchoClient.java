@@ -5,9 +5,10 @@ import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Observable;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,7 +18,7 @@ import shared.ProtocolStrings;
 /**
  * @author Tobias Jacobsen
  */
-public class EchoClient extends Observable implements Runnable {
+public class EchoClient implements Runnable {
 
     Socket socket;
     private int port;
@@ -26,12 +27,15 @@ public class EchoClient extends Observable implements Runnable {
     private PrintWriter output;
     private String msg = "";
     private ParseCommands parseCommands;
+    private List<ObserverInterface> observers;
     
-    
+    public EchoClient(){
+        parseCommands = new ParseCommands();
+        observers = new ArrayList<>();
+    }
     
 
     public void connect(String address, int port) throws UnknownHostException, IOException {
-        parseCommands = new ParseCommands();
         this.port = port;
         serverAddress = InetAddress.getByName(address);
         socket = new Socket(serverAddress, port);
@@ -47,13 +51,30 @@ public class EchoClient extends Observable implements Runnable {
     public void stop() throws IOException {
         output.println(ProtocolStrings.STOP);
     }
+    
+    public void addObserver(ObserverInterface observer){
+        observers.add(observer);
+    }
+    
+    public void notifyObservers(HashMap<String, String> msg){
+        if(msg.containsValue("USER#")){
+           for(ObserverInterface observerinterface: observers){
+               observerinterface.updateUserlist(msg);
+            }
+        } else {
+            for(ObserverInterface observerinterface: observers){
+               observerinterface.updateMessages(msg);
+            }
+        }
+        
+    }
 
     @Override
     public void run() {
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
-                Map <String, String> map = new HashMap();
+                HashMap <String, String> map = new HashMap();
                 while (true) {
                     msg = input.nextLine();
                     if (msg.equals(ProtocolStrings.STOP)) {
@@ -63,10 +84,11 @@ public class EchoClient extends Observable implements Runnable {
                             Logger.getLogger(EchoClient.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     } else {
-                        map = parseCommands.parseServerMessage(msg);
+                        System.out.println("Msg is: " + msg);
+                        map = (HashMap<String, String>) parseCommands.parseServerMessage(msg);
+                        
                     }
-                    setChanged();
-                    notifyObservers(msg);
+                    notifyObservers(map);
                 }
             }
         });

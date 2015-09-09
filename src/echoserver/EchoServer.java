@@ -89,7 +89,7 @@ public class EchoServer {
 
     public static void main(String[] args) {
         try {
-            String logFile = properties.getProperty("logfile");
+            String logFile = properties.getProperty("logFile");
             Utils.setLogFile(logFile, EchoServer.class.getName());
             new EchoServer().runServer();
         } finally {

@@ -1,6 +1,7 @@
 package gui;
 
 import echoclient.EchoClient;
+import echoclient.ObserverInterface;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -8,17 +9,19 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
 import shared.ProtocolStrings;
 
 /**
  * @author Tobias Jacobsen
  */
-public class ClientGUI extends javax.swing.JFrame implements Observer {
+public class ClientGUI extends javax.swing.JFrame implements ObserverInterface {
 
     private EchoClient client;
     private boolean isConnected;
     private Map <String, String> map;
     ProtocolStrings ps = new ProtocolStrings();
+    private DefaultListModel listmodel;
     
 
     public ClientGUI() {
@@ -26,6 +29,8 @@ public class ClientGUI extends javax.swing.JFrame implements Observer {
         client = new EchoClient();
         client.addObserver(this);
         map = new HashMap();
+        listmodel = new DefaultListModel();
+        jList1.setModel(listmodel);
     }
 
     /**
@@ -104,7 +109,7 @@ public class ClientGUI extends javax.swing.JFrame implements Observer {
         } else {
             try {
                 client.connect("localhost", 9090);
-//                client.send(ps.user(jTextField_input.getText()));
+                client.send("USER#"+jTextField_input.getText());
                 isConnected = true;
                 jTextField_input.setText("");
                 jButton_send.setText("Send");
@@ -160,11 +165,18 @@ public class ClientGUI extends javax.swing.JFrame implements Observer {
     // End of variables declaration//GEN-END:variables
 
     @Override
-    public void update(Observable o, Object arg) {
-        map = (Map<String, String>) arg;
-//        if (map.)
-//        jTextArea.append((String) arg + "\n");
+    public void updateUserlist(HashMap users) {
+        for(Map.Entry<String, String> entry : map.entrySet()){
+            listmodel.addElement(entry.getKey());
+        }
     }
+
+    @Override
+    public void updateMessages(HashMap message) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+  
    
     
     
