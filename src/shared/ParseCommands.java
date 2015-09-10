@@ -1,10 +1,7 @@
 package shared;
 
-import echoserver.ClientHandler;
 import echoserver.MessagePackage;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -40,11 +37,11 @@ public class ParseCommands {
     }
 
     public HashMap parseServerMessage(String input) {
-        System.out.println("input is: " + input);
+//        System.out.println("input is: " + input);
         HashMap<String, String> map = new HashMap();
         Scanner scan;
         String command = input.substring(0, input.indexOf("#"));
-        System.out.println("command is: " + command);
+//        System.out.println("command is: " + command);
         if (command.equals("USERLIST")) {
             String users = input.substring(input.lastIndexOf("#") + 1);
             scan = new Scanner(users);
@@ -57,7 +54,6 @@ public class ParseCommands {
 
         } else if (command.equals("MSG")){
             String message = input.substring(input.lastIndexOf("#") + 1);
-            System.out.println("message");
             String sender = input.substring(input.indexOf("#") + 1, input.lastIndexOf("#"));
             map.put(sender, message);
         }     
