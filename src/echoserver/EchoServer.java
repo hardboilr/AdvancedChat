@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 import utils.Utils;
 
 /**
- * @author Tobias Jacobsen
+ * @author Tobias Jacobsen Sebastian Nielsen Jonas Rafn
  */
 public class EchoServer {
 

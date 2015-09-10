@@ -1,6 +1,8 @@
 package echoclient;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -23,7 +25,7 @@ public class EchoClient implements Runnable {
     Socket socket;
     private int port;
     private InetAddress serverAddress;
-    private Scanner input;
+    private BufferedReader input;
     private PrintWriter output;
     private String msg = "";
     private ParseCommands parseCommands;
@@ -39,16 +41,16 @@ public class EchoClient implements Runnable {
         this.port = port;
         serverAddress = InetAddress.getByName(address);
         socket = new Socket(serverAddress, port);
-        input = new Scanner(socket.getInputStream());
+        input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         output = new PrintWriter(socket.getOutputStream(), true);  //Set to true, to get auto flush behaviour
-        run();
+        //run();
     }
 
     public void send(String msg) {
         output.println(msg);
     }
 
-    public void stop() throws IOException {
+    public void disconnect() throws IOException {
         output.println(ProtocolStrings.STOP);
     }
     
@@ -76,22 +78,36 @@ public class EchoClient implements Runnable {
             public void run() {
                 HashMap <String, String> map = new HashMap();
                 while (true) {
-                    msg = input.nextLine();
-                    if (msg.equals(ProtocolStrings.STOP)) {
-                        try {
-                            socket.close();
-                        } catch (IOException ex) {
-                            Logger.getLogger(EchoClient.class.getName()).log(Level.SEVERE, null, ex);
+                    try {
+                        msg = input.readLine();
+                        if (msg.equals(ProtocolStrings.STOP)) {
+                            try {
+                                socket.close();
+                            } catch (IOException ex) {
+                                Logger.getLogger(EchoClient.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        } else {
+                            System.out.println("Msg is: " + msg);
+                            map = parseCommands.parseServerMessage(msg);
+                            
                         }
-                    } else {
-                        System.out.println("Msg is: " + msg);
-                        map = parseCommands.parseServerMessage(msg);
-                        
+                        notifyObservers(map);
+                    } catch (IOException ex) {
+                        Logger.getLogger(EchoClient.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    notifyObservers(map);
                 }
             }
         });
         t.start();
     }
+
+    public BufferedReader getInput() {
+        return input;
+    }
+
+    
+
+   
+    
+    
 }
