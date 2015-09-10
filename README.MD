@@ -4,7 +4,7 @@
 
 #Sprint 2 10. - 13. sep
 
-##Implement GUI
+##Implement GUI DONE
 
 ##Elements
 
