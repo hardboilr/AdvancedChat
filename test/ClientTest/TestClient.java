@@ -1,3 +1,5 @@
+package ClientTest;
+
 import echoclient.EchoClient;
 import echoserver.EchoServer;
 import java.io.BufferedReader;
