@@ -21,6 +21,9 @@ public class ClientGUI extends javax.swing.JFrame implements ObserverInterface {
     ProtocolStrings ps = new ProtocolStrings();
     private DefaultListModel listmodel;
 
+//    private String serverAddress = "hardboilr.cloudapp.net";
+    private String serverAddress = "localhost";
+
     public ClientGUI() {
         initComponents();
         client = new EchoClient();
@@ -29,11 +32,12 @@ public class ClientGUI extends javax.swing.JFrame implements ObserverInterface {
         listmodel = new DefaultListModel();
         jList1.setModel(listmodel);
 
+        jTextField_serverAddress.setText(serverAddress);
+
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
             public void run() {
-                client.send("STOP#");
-                       
+                client.disconnect();
             }
         });
     }
@@ -54,6 +58,7 @@ public class ClientGUI extends javax.swing.JFrame implements ObserverInterface {
         jScrollPane2 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList();
         jLabel1 = new javax.swing.JLabel();
+        jTextField_serverAddress = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -72,6 +77,13 @@ public class ClientGUI extends javax.swing.JFrame implements ObserverInterface {
 
         jLabel1.setText("Not connected to server!! Click connect to connect.");
 
+        jTextField_serverAddress.setText("input server address");
+        jTextField_serverAddress.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField_serverAddressActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -84,7 +96,8 @@ public class ClientGUI extends javax.swing.JFrame implements ObserverInterface {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButton_send, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jTextField_serverAddress))
                 .addGap(36, 36, 36))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
@@ -97,12 +110,15 @@ public class ClientGUI extends javax.swing.JFrame implements ObserverInterface {
             .addGroup(layout.createSequentialGroup()
                 .addGap(17, 17, 17)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton_send, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton_send, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jTextField_serverAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(19, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
@@ -116,26 +132,35 @@ public class ClientGUI extends javax.swing.JFrame implements ObserverInterface {
 
     private void jButton_sendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_sendActionPerformed
         if (isConnected) {
-            int index = jList1.getSelectedIndex();
-            String value = jList1.getSelectedValue().toString();
+            jLabel1.setText("");
+            String value = "*";
+            try {
+                value = jList1.getSelectedValue().toString();
+            } catch (NullPointerException e) {
+            }
             System.out.println("value is: " + value);
             client.send("MSG#" + value + "#" + jTextField_input.getText());
             jTextField_input.setText("");
         } else {
             try {
                 String input = jTextField_input.getText();
-                client.connect("localhost", 9090);
+                client.connect(jTextField_serverAddress.getText(), 9090);
                 client.send("USER#" + input);
                 isConnected = true;
-                jLabel1.setText(input + "      Has connected to the server!!!!1!!");
+                jLabel1.setText(input + "      Has connected to the server!");
                 jTextField_input.setText("");
                 jButton_send.setText("Send");
                 jButton_send.setToolTipText("Send message!");
+                jTextField_serverAddress.setEnabled(false);
             } catch (IOException ex) {
                 Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_jButton_sendActionPerformed
+
+    private void jTextField_serverAddressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_serverAddressActionPerformed
+
+    }//GEN-LAST:event_jTextField_serverAddressActionPerformed
 
     /**
      * @param args the command line arguments
@@ -180,6 +205,7 @@ public class ClientGUI extends javax.swing.JFrame implements ObserverInterface {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea jTextArea;
     private javax.swing.JTextField jTextField_input;
+    private javax.swing.JTextField jTextField_serverAddress;
     // End of variables declaration//GEN-END:variables
 
     @Override
@@ -199,8 +225,6 @@ public class ClientGUI extends javax.swing.JFrame implements ObserverInterface {
         System.out.println(message.size());
         for (Map.Entry<String, String> entry : message.entrySet()) {
             jTextArea.append(entry.getKey() + ": " + entry.getValue() + "\n");
-
         }
     }
-
 }

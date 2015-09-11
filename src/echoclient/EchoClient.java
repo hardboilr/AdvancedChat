@@ -40,14 +40,14 @@ public class EchoClient implements Runnable {
         socket = new Socket(serverAddress, port);
         input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         output = new PrintWriter(socket.getOutputStream(), true);  //Set to true, to get auto flush behaviour
-//        run();
+        run();
     }
 
     public void send(String msg) {
         output.println(msg);
     }
 
-    public void disconnect() throws IOException {
+    public void disconnect() {
         output.println(ProtocolStrings.STOP);
     }
 
@@ -75,7 +75,6 @@ public class EchoClient implements Runnable {
             public void run() {
                 HashMap<String, String> map = new HashMap();
                 while (true) {
-                    /*
                     try {
                         msg = input.readLine();
                         if (msg.equals(ProtocolStrings.STOP)) {
@@ -93,7 +92,7 @@ public class EchoClient implements Runnable {
                     } catch (IOException ex) {
                         Logger.getLogger(EchoClient.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                */}
+                }
             }
         });
         t.start();
