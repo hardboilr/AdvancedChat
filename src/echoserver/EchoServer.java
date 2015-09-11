@@ -64,12 +64,14 @@ public class EchoServer {
             for (ClientHandler clientHandler : clientHandlerList) {
                 messagepackage = receivers.get("*");
                 clientHandler.send("MSG#" + messagepackage.getSender() + "#" + messagepackage.getMessage());
+                Logger.getLogger(EchoServer.class.getName()).log(Level.INFO, "Returned to receiver(s): MSG#" + messagepackage.getSender() + "#" + messagepackage.getMessage());
             }
         } else {
             for (ClientHandler clientHandler : clientHandlerList) {
                 if (receivers.containsKey(clientHandler.getUsername())) {
                     messagepackage = receivers.get(clientHandler.getUsername());
                     clientHandler.send("MSG#" + messagepackage.getSender() + "#" + messagepackage.getMessage());
+                    Logger.getLogger(EchoServer.class.getName()).log(Level.INFO, "Returned to receiver(s):MSG#" + messagepackage.getSender() + "#" + messagepackage.getMessage());
                 }
             }
         }
@@ -81,10 +83,12 @@ public class EchoServer {
         for (ClientHandler clientHandler : clientHandlerList) {
             list.add(clientHandler.getUsername());
         }
+        
         //add list to all users
         for (ClientHandler clientHandler : clientHandlerList) {
             clientHandler.sendUserList(list);
         }
+        Logger.getLogger(EchoServer.class.getName()).log(Level.INFO, " an updated userlist was send to client(s)");
     }
 
     public static void main(String[] args) {

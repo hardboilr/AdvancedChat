@@ -1,24 +1,28 @@
-Sep 11, 2015 10:55:29 AM echoserver.EchoServer runServer
+sep. 11, 2015 11:54:34 AM echoserver.EchoServer runServer
 INFO: Sever started. Listening on: 9090, bound to: localhost
-Sep 11, 2015 10:55:33 AM echoserver.EchoServer runServer
+sep. 11, 2015 11:54:39 AM echoserver.EchoServer runServer
 INFO: Connected to a client
-Sep 11, 2015 10:55:33 AM echoserver.ClientHandler run
+sep. 11, 2015 11:54:41 AM echoserver.EchoServer runServer
+INFO: Connected to a client
+sep. 11, 2015 11:54:48 AM echoserver.ClientHandler run
 INFO: Received the message: USER#SEBASTIAN 
-Sep 11, 2015 10:55:33 AM echoserver.ClientHandler run
+sep. 11, 2015 11:54:48 AM echoserver.ClientHandler run
+INFO: Sebastian was added to clienthandlerlist
+sep. 11, 2015 11:54:48 AM echoserver.EchoServer updateUserList
+INFO:  an updated userlist was send to client(s)
+sep. 11, 2015 11:54:48 AM echoserver.ClientHandler run
 INFO: Received the message: USER#SEBASTIAN 
-Sep 11, 2015 10:55:33 AM echoserver.ClientHandler run
-INFO: Closed a Connection
-Sep 11, 2015 10:55:39 AM echoserver.EchoServer runServer
-INFO: Sever started. Listening on: 9090, bound to: localhost
-Sep 11, 2015 10:55:39 AM echoserver.EchoServer runServer
-SEVERE: null
-java.net.BindException: Address already in use
-	at java.net.PlainSocketImpl.socketBind(Native Method)
-	at java.net.AbstractPlainSocketImpl.bind(AbstractPlainSocketImpl.java:382)
-	at java.net.ServerSocket.bind(ServerSocket.java:375)
-	at java.net.ServerSocket.bind(ServerSocket.java:329)
-	at echoserver.EchoServer.runServer(EchoServer.java:41)
-	at echoserver.EchoServer.main(EchoServer.java:94)
-	at ClientTest.TestClient$1.run(TestClient.java:48)
-	at java.lang.Thread.run(Thread.java:745)
-
+sep. 11, 2015 11:55:11 AM echoserver.ClientHandler run
+INFO: Received the message: USER#JONAS 
+sep. 11, 2015 11:55:11 AM echoserver.ClientHandler run
+INFO: Jonas was added to clienthandlerlist
+sep. 11, 2015 11:55:11 AM echoserver.EchoServer updateUserList
+INFO:  an updated userlist was send to client(s)
+sep. 11, 2015 11:55:11 AM echoserver.ClientHandler run
+INFO: Received the message: USER#JONAS 
+sep. 11, 2015 11:55:31 AM echoserver.EchoServer send
+INFO: Returned to receiver(s):MSG#Jonas#Hej
+sep. 11, 2015 11:55:31 AM echoserver.EchoServer send
+INFO: Returned to receiver(s):MSG#Jonas#Hej
+sep. 11, 2015 11:55:31 AM echoserver.ClientHandler run
+INFO: Received the message: MSG#SEBASTIAN#HEJ 
