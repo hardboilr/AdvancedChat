@@ -64,6 +64,7 @@ public class ClientHandler extends Thread {
                     username = parseCmd.parseUser(msg);
                     isLoggedIn = true;
                     echoserver.addHandler(this);
+                    Logger.getLogger(EchoServer.class.getName()).log(Level.INFO, username + " was added to clienthandlerlist");
                     echoserver.updateUserList();
                 } else {
                     echoserver.send(parseCmd.parseClientMessage(msg, username));
