@@ -8,7 +8,7 @@
 <!-- You can turn off the Compile on Save (or Deploy on Save) setting -->
 <!-- in the project's Project Properties dialog box.-->
 <project name="AdvancedChat" default="default" basedir=".">
-    <description>Builds, tests, and runs the project SimpleEchoServer_new.</description>
+    <description>Builds, tests, and runs the project AdvancedChat.</description>
     <import file="nbproject/build-impl.xml"/>
 	<target name="-post-compile">
 		<copy file="server.properties" todir="${dist.dir}"/> 
