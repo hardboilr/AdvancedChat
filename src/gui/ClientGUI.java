@@ -132,7 +132,6 @@ public class ClientGUI extends javax.swing.JFrame implements ObserverInterface {
 
     private void jButton_sendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_sendActionPerformed
         if (isConnected) {
-            jLabel1.setText("");
             String value = "*";
             try {
                 value = jList1.getSelectedValue().toString();

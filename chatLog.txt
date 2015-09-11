@@ -1,8 +1,16 @@
-sep. 09, 2015 12:48:37 PM echoserver.EchoServer runServer
+Sep 11, 2015 1:33:22 PM echoserver.EchoServer runServer
 INFO: Sever started. Listening on: 9090, bound to: localhost
-sep. 09, 2015 12:48:55 PM echoserver.EchoServer runServer
+Sep 11, 2015 1:33:24 PM echoserver.EchoServer runServer
 INFO: Connected to a client
-sep. 09, 2015 12:48:55 PM echoserver.ClientHandler run
-INFO: Received the message: USER#HEJ 
-sep. 09, 2015 12:48:55 PM echoserver.ClientHandler run
-INFO: Received the message: USER#HEJ 
+Sep 11, 2015 1:33:24 PM echoserver.ClientHandler run
+INFO: Received the message: USER#SEBASTIAN 
+Sep 11, 2015 1:33:24 PM echoserver.ClientHandler run
+INFO: Sebastian was added to clienthandlerlist
+Sep 11, 2015 1:33:24 PM echoserver.EchoServer updateUserList
+INFO:  an updated userlist was send to client(s)
+Sep 11, 2015 1:33:24 PM echoserver.ClientHandler run
+INFO: Received the message: USER#SEBASTIAN 
+Sep 11, 2015 1:33:24 PM echoserver.EchoServer updateUserList
+INFO:  an updated userlist was send to client(s)
+Sep 11, 2015 1:33:24 PM echoserver.ClientHandler run
+INFO: Closed a Connection

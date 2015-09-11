@@ -24,6 +24,11 @@ public class EchoServer {
     private List<ClientHandler> clientHandlerList = new ArrayList();
 
     public static void stopServer() {
+        try {
+            serverSocket.close();
+        } catch (IOException ex) {
+            Logger.getLogger(EchoServer.class.getName()).log(Level.SEVERE, null, ex);
+        }
         keepRunning = false;
     }
 
