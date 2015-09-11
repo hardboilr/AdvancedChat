@@ -28,12 +28,11 @@ public class EchoClient implements Runnable {
     private String msg = "";
     private ParseCommands parseCommands;
     private List<ObserverInterface> observers;
-    
-    public EchoClient(){
+
+    public EchoClient() {
         parseCommands = new ParseCommands();
         observers = new ArrayList<>();
     }
-    
 
     public void connect(String address, int port) throws UnknownHostException, IOException {
         this.port = port;
@@ -41,7 +40,7 @@ public class EchoClient implements Runnable {
         socket = new Socket(serverAddress, port);
         input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         output = new PrintWriter(socket.getOutputStream(), true);  //Set to true, to get auto flush behaviour
-        run();
+//        run();
     }
 
     public void send(String msg) {
@@ -51,22 +50,22 @@ public class EchoClient implements Runnable {
     public void disconnect() throws IOException {
         output.println(ProtocolStrings.STOP);
     }
-    
-    public void addObserver(ObserverInterface observer){
+
+    public void addObserver(ObserverInterface observer) {
         observers.add(observer);
     }
-    
-    public void notifyObservers(HashMap<String, String> msg){
-        if(msg.containsValue("USER#")){
-           for(ObserverInterface observerinterface: observers){
-               observerinterface.updateUserlist(msg);
+
+    public void notifyObservers(HashMap<String, String> msg) {
+        if (msg.containsValue("USER#")) {
+            for (ObserverInterface observerinterface : observers) {
+                observerinterface.updateUserlist(msg);
             }
         } else {
-            for(ObserverInterface observerinterface: observers){
-               observerinterface.updateMessages(msg);
+            for (ObserverInterface observerinterface : observers) {
+                observerinterface.updateMessages(msg);
             }
         }
-        
+
     }
 
     @Override
@@ -74,8 +73,9 @@ public class EchoClient implements Runnable {
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
-                HashMap <String, String> map = new HashMap();
+                HashMap<String, String> map = new HashMap();
                 while (true) {
+                    /*
                     try {
                         msg = input.readLine();
                         if (msg.equals(ProtocolStrings.STOP)) {
@@ -87,13 +87,13 @@ public class EchoClient implements Runnable {
                         } else {
                             System.out.println("Msg is: " + msg);
                             map = parseCommands.parseServerMessage(msg);
-                            
+
                         }
                         notifyObservers(map);
                     } catch (IOException ex) {
                         Logger.getLogger(EchoClient.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                }
+                */}
             }
         });
         t.start();
@@ -103,9 +103,4 @@ public class EchoClient implements Runnable {
         return input;
     }
 
-    
-
-   
-    
-    
 }

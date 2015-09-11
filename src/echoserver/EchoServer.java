@@ -44,6 +44,7 @@ public class EchoServer {
                 Logger.getLogger(EchoServer.class.getName()).log(Level.INFO, "Connected to a client");
                 handleClient(socket);
             } while (keepRunning);
+            System.out.println("Nu stopper serveren...");
         } catch (IOException ex) {
             Logger.getLogger(EchoServer.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -84,7 +85,6 @@ public class EchoServer {
         for (ClientHandler clientHandler : clientHandlerList) {
             clientHandler.sendUserList(list);
         }
-
     }
 
     public static void main(String[] args) {
