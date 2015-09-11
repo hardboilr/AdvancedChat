@@ -21,8 +21,8 @@ public class ClientGUI extends javax.swing.JFrame implements ObserverInterface {
     ProtocolStrings ps = new ProtocolStrings();
     private DefaultListModel listmodel;
 
-//    private String serverAddress = "hardboilr.cloudapp.net";
-    private String serverAddress = "localhost";
+    private String serverAddress = "hardboilr.cloudapp.net";
+//    private String serverAddress = "localhost";
 
     public ClientGUI() {
         initComponents();
@@ -143,14 +143,19 @@ public class ClientGUI extends javax.swing.JFrame implements ObserverInterface {
         } else {
             try {
                 String input = jTextField_input.getText();
-                client.connect(jTextField_serverAddress.getText(), 9090);
-                client.send("USER#" + input);
-                isConnected = true;
-                jLabel1.setText(input + "      Has connected to the server!");
-                jTextField_input.setText("");
-                jButton_send.setText("Send");
-                jButton_send.setToolTipText("Send message!");
-                jTextField_serverAddress.setEnabled(false);
+                if (input.equals("")) {
+                    jLabel1.setText("Please enter name!");
+                } else {
+                    client.connect(jTextField_serverAddress.getText(), 9090);
+                    client.send("USER#" + input);
+                    isConnected = true;
+                    jLabel1.setText(input + "      has connected to the server!");
+                    jTextField_input.setText("");
+                    jButton_send.setText("Send");
+                    jButton_send.setToolTipText("Send message!");
+                    jTextField_serverAddress.setEnabled(false);
+                }
+
             } catch (IOException ex) {
                 Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
             }
